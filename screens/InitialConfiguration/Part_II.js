@@ -1,10 +1,9 @@
-import { View, StyleSheet, Button } from 'react-native';
-import React, {useEffect, useState} from "react"
+import {StyleSheet, View} from 'react-native';
+import React from "react"
 
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setAge} from "../../redux/actions";
-import {setSex} from "../../redux/actions";
-import {Video, AVPlaybackStatus} from "expo-av"
+import {Video} from "expo-av"
 import * as FileSystem from "expo-file-system"
 
 const Part_II = ({navigation}) => {
@@ -26,7 +25,7 @@ const Part_II = ({navigation}) => {
                 ref={video}
                 style={styles.video}
                 source={{
-                    uri: FileSystem.documentDirectory+"/batman.mp4",
+                    uri: FileSystem.documentDirectory + "/batman.mp4",
                 }}
                 useNativeControls={true}
                 resizeMode="contain"
@@ -34,7 +33,7 @@ const Part_II = ({navigation}) => {
                 onPlaybackStatusUpdate={status => {
                     setStatus(() => status)
                     console.log(status.didJustFinish)
-                    if(status.didJustFinish === true){
+                    if (status.didJustFinish === true) {
                         navigation.reset({
                             index: 0,
                             routes: [{name: "Part_III"}]

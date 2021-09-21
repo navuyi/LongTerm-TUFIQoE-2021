@@ -7,22 +7,17 @@ const style = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         flexGrow: 1,
-        justifyContent: "center",
-        alignItems: "center"
+        justifyContent: "space-around",
+        alignItems: "center",
+        padding: 30
     },
     box: {
         width: "100%",
-        marginTop: 20
-    },
-    box_check: {
-        width: "100%",
+        marginTop: "10%",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
-        marginTop: 10
-    },
-    checkboxContainerStyle: {
-      width: "80%"
+        justifyContent: "center",
+        alignItems: "center"
     },
     label: {
         textAlign: "center",

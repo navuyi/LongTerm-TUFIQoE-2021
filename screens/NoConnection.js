@@ -1,5 +1,4 @@
-import {Text, View} from "react-native"
-import {Image} from "react-native";
+import {Image, Text, View} from "react-native"
 import React from "react"
 import {Button} from "react-native-elements"
 import styles from "../styles/NoConnectionStyle"
@@ -19,7 +18,8 @@ const NoConnection = () => {
                     source={require("../assets/icons/no-wifi.png")}
                     style={styles.image}
                 />
-                <Text style={styles.info}> Brak połączenia z Internetem. Połączenie Internetowe jest wymagane do korzystania z aplikacji. </Text>
+                <Text style={styles.info}> Brak połączenia z Internetem. Połączenie Internetowe jest wymagane do
+                    korzystania z aplikacji. </Text>
             </View>
             <Button
                 title={"Spróbuj ponownie"}

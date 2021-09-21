@@ -1,5 +1,5 @@
 import {Text, View} from "react-native"
-import React, {useEffect} from "react"
+import React from "react"
 import {Button} from "react-native-elements"
 import styles from "../styles/LandingStyle"
 
@@ -15,7 +15,8 @@ const Landing = ({navigation}) => {
         <View style={styles.container}>
             <View>
                 <Text style={styles.header}> LongTerm Study </Text>
-                <Text style={styles.info}> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </Text>
+                <Text style={styles.info}> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. </Text>
             </View>
 
             <View>

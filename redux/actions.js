@@ -1,6 +1,6 @@
 export const SET_USER_SEX = 'SET_USER_SEX'
 export const SET_USER_AGE = "SET_USER_AGE"
-
+export const SET_PHONE_NUMBER = "SET_PHONE_NUMBER"
 
 export const setSex = (sex) => dispatch => {
     dispatch({
@@ -8,11 +8,15 @@ export const setSex = (sex) => dispatch => {
         payload: sex
     })
 }
-
 export const setAge = (age) => dispatch => {
     dispatch({
         type: SET_USER_AGE,
         payload: age
     })
 }
-
+export const setPhoneNumber = (phone_number) => dispatch => {
+    dispatch({
+        type: SET_PHONE_NUMBER,
+        payload: phone_number
+    })
+}

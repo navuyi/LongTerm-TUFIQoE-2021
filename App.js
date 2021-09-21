@@ -105,6 +105,7 @@ function App() {
                     headerTitleStyle: {
                         fontWeight: "bold"
                     },
+                    headerTitleAlign: "center",
                     headerShadowVisible: false // Disables the visible shadow/separator on bottom of the header
                 }}>
                     <Stack.Group screenOptions={{
