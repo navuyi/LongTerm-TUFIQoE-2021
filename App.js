@@ -9,19 +9,39 @@ import {Store} from "./redux/store";
 import {Appearance, Button} from "react-native";
 import {useColorScheme} from "react-native";
 import * as FileSystem from "expo-file-system"
-
+import * as BackgroundFetch from "expo-background-fetch"
+import * as TaskManager from "expo-task-manager"
 
 import General from "./screens/InitialConfiguration/General";
+import Cellular from "./screens/InitialConfiguration/Cellular";
+
 import Home from './screens/Home'
 import Landing from "./screens/Landing";
 import NoConnection from "./screens/NoConnection";
+
+
+// // // Defining a task // // //
+//IMPORTANT - This needs to be in global scope - outside React component ! ! !
+const BACKGROUND_FETCH_TASK = "background-fetch"
+BackgroundFetch.setMinimumIntervalAsync(10)
+TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
+    const now = Date.now()
+    console.log(`Got background fetch call at date: ${new Date(now).toISOString()}`);
+    console.log("Fetching data from REST")
+    const res = await axios.get("https://figlus.pl/api")
+    console.log("Response received")
+    console.log(res.data)
+
+    return BackgroundFetch.Result.NewData
+})
 
 
 function App() {
     const [appIsReady, setAppIsReady] = useState(false)
     const Stack = createNativeStackNavigator()
     const colorScheme = useColorScheme()
-    const [initialView, setInitialView] = useState("Part_I")
+    const [initialView, setInitialView] = useState("")
+
 
 
 
@@ -35,7 +55,7 @@ function App() {
             try {
                 await SplashScreen.preventAutoHideAsync(); // <-- remain splash screen visible
 
-                //IMPORTANT Place for fetching data and async operations, before starting the app
+                // // //Place for fetching data and async operations, before starting the app // // //
                 const network = await Network.getNetworkStateAsync()
                 //network.isInternetReachable = false // DELETEME LATER
                 if(network.isConnected === true && network.isInternetReachable === true){
@@ -45,7 +65,7 @@ function App() {
                     // If not registered -> go to Landing for further registration
                     // Test http request
                     try{
-                        const res = await axios.get("https://figlus.pl/api")
+                        //const res = await axios.get("https://figlus.pl/api")
                         const registered = false
                         if(registered === true){
                             setInitialView("Home")
@@ -99,7 +119,7 @@ function App() {
             <NavigationContainer>
                 <Stack.Navigator initialRouteName={initialView} screenOptions={{
                     headerStyle: {
-                        backgroundColor: colorScheme === "dark" ? "#222222" : colorScheme === "light" ? "#ffffff" : "00ff00"
+                        backgroundColor: colorScheme === "dark" ? "#222222" : colorScheme === "light" ? "#222222" : "00ff00"
                     },
                     headerTintColor: "#ffffff",
                     headerTitleStyle: {
@@ -114,6 +134,10 @@ function App() {
                         <Stack.Screen
                             name={"General"}
                             component={General}
+                        />
+                        <Stack.Screen
+                            name={"Cellular"}
+                            component={Cellular}
                         />
                     </Stack.Group>
                     <Stack.Screen

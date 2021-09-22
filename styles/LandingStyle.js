@@ -37,10 +37,16 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: "#930035",
-        width: "100%",
+        width: "80%",
         paddingTop: 15,
         paddingBottom: 15,
-        marginBottom: 50
+        marginBottom: 50,
+        borderRadius: 8
+    },
+    buttonText: {
+        textAlign: "center",
+        color: "whitesmoke",
+        fontSize: 18
     }
 })
 
