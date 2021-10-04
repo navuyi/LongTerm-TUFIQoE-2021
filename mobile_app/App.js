@@ -9,8 +9,7 @@ import {Store} from "./redux/store";
 import {Appearance, Button} from "react-native";
 import {useColorScheme} from "react-native";
 import * as FileSystem from "expo-file-system"
-import * as BackgroundFetch from "expo-background-fetch"
-import * as TaskManager from "expo-task-manager"
+import * as Notifications from "expo-notifications"
 
 import General from "./screens/InitialConfiguration/General";
 import Cellular from "./screens/InitialConfiguration/Cellular";
@@ -19,30 +18,15 @@ import Home from './screens/Home'
 import Landing from "./screens/Landing";
 import NoConnection from "./screens/NoConnection";
 
-
-// // // Defining a task // // //
-//IMPORTANT - This needs to be in global scope - outside React component ! ! !
-const BACKGROUND_FETCH_TASK = "background-fetch"
-BackgroundFetch.setMinimumIntervalAsync(10)
-TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
-    const now = Date.now()
-    console.log(`Got background fetch call at date: ${new Date(now).toISOString()}`);
-    console.log("Fetching data from REST")
-    const res = await axios.get("https://figlus.pl/api")
-    console.log("Response received")
-    console.log(res.data)
-
-    return BackgroundFetch.Result.NewData
-})
-
+// Test views
+import FileSystemTest from "./screens/TestViews/FileSystemTest";
+import AVTest from "./screens/TestViews/AVTest";
 
 function App() {
     const [appIsReady, setAppIsReady] = useState(false)
     const Stack = createNativeStackNavigator()
     const colorScheme = useColorScheme()
     const [initialView, setInitialView] = useState("")
-
-
 
 
     useEffect(() => {
@@ -59,11 +43,7 @@ function App() {
                 const network = await Network.getNetworkStateAsync()
                 //network.isInternetReachable = false // DELETEME LATER
                 if(network.isConnected === true && network.isInternetReachable === true){
-                    //TODO
-                    // If Internet is OK send request to server and check if account/device was already registered
-                    // If registered -> go to Home
-                    // If not registered -> go to Landing for further registration
-                    // Test http request
+                    network.isConnected = false
                     try{
                         //const res = await axios.get("https://figlus.pl/api")
                         const registered = false
@@ -71,7 +51,8 @@ function App() {
                             setInitialView("Home")
                         }
                         else{
-                            setInitialView("Landing")
+                            //setInitialView("Landing") //TODO Uncomment it later
+                            setInitialView("AVTest")
                         }
                     }
                     catch (err){
@@ -97,6 +78,58 @@ function App() {
             }
         }
 
+        // Handle notifications
+        async function handleNotifications(){
+            let notifications = await Notifications.getAllScheduledNotificationsAsync()
+            console.log("Asd")
+            console.log(notifications)
+
+            // Cancel all scheduled notifications
+            await Notifications.cancelAllScheduledNotificationsAsync()
+
+            //IMPORTANT Method below enables notifications when the app is in foreground
+            // I guess we do NOT want that to happen
+            Notifications.setNotificationHandler({
+                handleNotification: async () => ({
+                    shouldShowAlert: true,
+                    shouldPlaySound: false,
+                    shouldSetBadge: false,
+                })
+            })
+
+            const settings = await Notifications.getPermissionsAsync()
+            console.log(settings)
+
+            // Schedule notification
+            await Notifications.requestPermissionsAsync({
+                ios: {
+                    allowAlert: true,
+                    allowBadge: true,
+                    allowSound: true,
+                    allowAnnouncements: true
+                }
+            })
+
+            /*
+            await Notifications.scheduleNotificationAsync({
+                content: {
+                    title: 'Remember to drink water!',
+                },
+                trigger: {
+                    seconds: 60, // 60 seconds
+                    repeats: true
+                }
+            });
+             */
+
+
+            notifications = await Notifications.getAllScheduledNotificationsAsync()
+            console.log("Asd")
+            console.log(notifications)
+
+        }
+
+        handleNotifications()
         prepare();
     }, []);
 
@@ -156,6 +189,20 @@ function App() {
                         component={NoConnection}
                         options={{
                             title: ""
+                        }}
+                    />
+                    <Stack.Screen
+                        name="FileSystemTest"
+                        component={FileSystemTest}
+                        options={{
+                            title: "FileSystemTest"
+                        }}
+                    />
+                    <Stack.Screen
+                        name="AVTest"
+                        component={AVTest}
+                        options={{
+                            title: "AVTest"
                         }}
                     />
                 </Stack.Navigator>
