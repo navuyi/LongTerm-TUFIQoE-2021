@@ -10,24 +10,31 @@ import {Appearance, Button} from "react-native";
 import {useColorScheme} from "react-native";
 import * as FileSystem from "expo-file-system"
 import * as Notifications from "expo-notifications"
+import * as TaskManager from "expo-task-manager"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from "moment";
+
 
 import General from "./screens/InitialConfiguration/General";
 import Cellular from "./screens/InitialConfiguration/Cellular";
+import NotificationsInitial from "./screens/InitialConfiguration/NotificationsInitial"
 
+import Settings from "./screens/Settings";
 import Home from './screens/Home'
 import Landing from "./screens/Landing";
 import NoConnection from "./screens/NoConnection";
 
+
 // Test views
 import FileSystemTest from "./screens/TestViews/FileSystemTest";
 import AVTest from "./screens/TestViews/AVTest";
+
 
 function App() {
     const [appIsReady, setAppIsReady] = useState(false)
     const Stack = createNativeStackNavigator()
     const colorScheme = useColorScheme()
     const [initialView, setInitialView] = useState("")
-
 
     useEffect(() => {
         console.log("Color scheme changed " + colorScheme)
@@ -40,19 +47,20 @@ function App() {
                 await SplashScreen.preventAutoHideAsync(); // <-- remain splash screen visible
 
                 // // //Place for fetching data and async operations, before starting the app // // //
+
+                AsyncStorage.clear()
+
                 const network = await Network.getNetworkStateAsync()
-                //network.isInternetReachable = false // DELETEME LATER
                 if(network.isConnected === true && network.isInternetReachable === true){
-                    network.isConnected = false
                     try{
-                        //const res = await axios.get("https://figlus.pl/api")
-                        const registered = false
-                        if(registered === true){
+                        const access_token = await AsyncStorage.getItem("access_token")
+                        console.log(access_token)
+                        if(access_token){
                             setInitialView("Home")
                         }
                         else{
-                            //setInitialView("Landing") //TODO Uncomment it later
-                            setInitialView("AVTest")
+                            setInitialView("Landing")
+                            setInitialView("NotificationsInitial")
                         }
                     }
                     catch (err){
@@ -65,11 +73,6 @@ function App() {
                 }
                 // Check system color scheme (if dark mode is enabled)
                 console.log(Appearance.getColorScheme()) // <-- This is always returning "light"
-
-                // Read files from the directory
-                const items = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory)
-                console.log(items)
-
             } catch (e) {
                 console.warn(e);
             } finally {
@@ -78,58 +81,6 @@ function App() {
             }
         }
 
-        // Handle notifications
-        async function handleNotifications(){
-            let notifications = await Notifications.getAllScheduledNotificationsAsync()
-            console.log("Asd")
-            console.log(notifications)
-
-            // Cancel all scheduled notifications
-            await Notifications.cancelAllScheduledNotificationsAsync()
-
-            //IMPORTANT Method below enables notifications when the app is in foreground
-            // I guess we do NOT want that to happen
-            Notifications.setNotificationHandler({
-                handleNotification: async () => ({
-                    shouldShowAlert: true,
-                    shouldPlaySound: false,
-                    shouldSetBadge: false,
-                })
-            })
-
-            const settings = await Notifications.getPermissionsAsync()
-            console.log(settings)
-
-            // Schedule notification
-            await Notifications.requestPermissionsAsync({
-                ios: {
-                    allowAlert: true,
-                    allowBadge: true,
-                    allowSound: true,
-                    allowAnnouncements: true
-                }
-            })
-
-            /*
-            await Notifications.scheduleNotificationAsync({
-                content: {
-                    title: 'Remember to drink water!',
-                },
-                trigger: {
-                    seconds: 60, // 60 seconds
-                    repeats: true
-                }
-            });
-             */
-
-
-            notifications = await Notifications.getAllScheduledNotificationsAsync()
-            console.log("Asd")
-            console.log(notifications)
-
-        }
-
-        handleNotifications()
         prepare();
     }, []);
 
@@ -161,6 +112,14 @@ function App() {
                     headerTitleAlign: "center",
                     headerShadowVisible: false // Disables the visible shadow/separator on bottom of the header
                 }}>
+                    <Stack.Screen
+                        name="Home"
+                        component={Home}
+                        options={{
+                            headerShown: false
+                        }}
+                    />
+
                     <Stack.Group screenOptions={{
                         title: "Konfiguracja"
                     }}>
@@ -169,20 +128,18 @@ function App() {
                             component={General}
                         />
                         <Stack.Screen
-                            name={"Cellular"}
-                            component={Cellular}
+                            name={"NotificationsInitial"}
+                            component={NotificationsInitial}
                         />
                     </Stack.Group>
+
+
                     <Stack.Screen
                         name="Landing"
                         component={Landing}
                         options={{
                             title: ""
                         }}
-                    />
-                    <Stack.Screen
-                        name="Home"
-                        component={Home}
                     />
                     <Stack.Screen
                         name="NoConnection"

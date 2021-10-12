@@ -19,7 +19,7 @@ const AVTest = () => {
                     uri: FileSystem.documentDirectory + "/batman.mp4",
                 }}
                 onPlaybackStatusUpdate={(status) => {
-                    console.log(status)
+                    //console.log(status)
                 }}
             />
             <View >

@@ -16,7 +16,7 @@ const Cellular = ({navigation}) => {
     useEffect(() => {
         // Handle AsyncStorage change
         // Also set this field in Redux state so it can be submitted to server - just in case
-    }, permission)
+    }, [permission])
 
     const handleAllowClick = () => {
         setPermission({allowed: true, denied: false})

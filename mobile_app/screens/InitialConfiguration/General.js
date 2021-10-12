@@ -5,13 +5,16 @@ import {Picker} from "@react-native-picker/picker";
 import styles from "../../styles/GeneralStyle"
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {Button, TextInput} from "react-native-paper";
-import {setAge, setPhoneNumber, setSex} from "../../redux/actions";
+import {setAge, setPhoneNumber, setSex, setUserName} from "../../redux/actions";
 import {COLORS} from "../../styles/config";
-import {remove_whitespaces} from "../../utils/string_utils";
+import {removeWhitespaces} from "../../utils/string_utils";
+import {isBlankString} from "../../utils/string_utils";
+import * as Crypto from "expo-crypto"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const General = ({navigation}) => {
     const dispatch = useDispatch()
-    const {sex, age, phone_number} = useSelector(state => state.userReducer)
+    const {sex, age, phone_number, user_name} = useSelector(state => state.userReducer)
     const [ready, setReady] = useState(false)
 
     const handleSexChange = (value, index) => {
@@ -19,30 +22,75 @@ const General = ({navigation}) => {
     }
 
     useEffect(() => {
-        if(sex !== "" && phone_number !== "" && phone_number.length>=9 && age !== ""){
+        if(isBlankString(sex) === false && isBlankString(phone_number) === false && phone_number.length>=9 && isBlankString(age) === false && isBlankString(user_name) === false){
             setReady(true)
         }
         else{
             setReady(false)
         }
-    })
+    }, [sex, phone_number, age, user_name])
 
     const handlePhoneInput = (text) => {
         if (isNaN(text) === false) {
-            dispatch(setPhoneNumber(remove_whitespaces(text)))
+            dispatch(setPhoneNumber(removeWhitespaces(text)))
         }
     }
     const handleAgeInput = (text) => {
         if (isNaN(text) === false) {
             if(parseInt(text) !== 0){
-                dispatch(setAge(remove_whitespaces(text)))
+                dispatch(setAge(removeWhitespaces(text)))
             }
         }
+    }
+
+    const handleNameInput = (text) => {
+        dispatch(setUserName(text))
+    }
+
+    const handleSubmit = async () => {
+        const access_token = await Crypto.digestStringAsync(
+            Crypto.CryptoDigestAlgorithm.SHA256,
+            user_name+phone_number
+        )
+        const data = {
+            age: age,
+            sex: sex,
+            phone_number: phone_number,
+            name: user_name,
+            access_token: access_token
+        }
+        //TODO Axios request to the server HERE
+        // if OK save values above in AsyncStorage access_token in particular ! ! ! THEN redirect to setup page --> There download videos etc.
+        // if not ok, display error message, check data, try again etc.
+        await AsyncStorage.multiSet([
+            ["age", age],
+            ["sex", sex],
+            ["phone_number", phone_number],
+            ["name", user_name],
+            ["access_token", access_token]
+        ])
+
+        // Redirect to notifications configuration screen
+        navigation.push("NotificationsInitial")
     }
 
     return (
         <KeyboardAwareScrollView contentContainerStyle={styles.container}>
             <View style={{width: "100%"}}>
+                <View style={styles.box}>
+                    <Text style={styles.label}> Imię </Text>
+                    <TextInput
+                        onChangeText={handleNameInput}
+                        value={user_name}
+                        mode={"outlined"}
+                        outlineColor={"#222222"}
+                        dense={true}
+                        style={{
+                            width: "100%",
+                            textAlign: "center"
+                        }}
+                    />
+                </View>
                 <View style={styles.box}>
                     <Text style={styles.label}> Numer telefonu </Text>
                     <TextInput
@@ -55,7 +103,6 @@ const General = ({navigation}) => {
                             width: "100%",
                             textAlign: "center"
                         }}
-                        onSubmitEditing={() => {console.log("hello")}}
                     />
                 </View>
                 <View style={styles.box}>
@@ -94,10 +141,8 @@ const General = ({navigation}) => {
             {
                 !ready ? null :
                     <Button style={{marginTop: 50}} uppercase={true} mode={"contained"} color={COLORS.info}
-                            icon={"check-bold"} onPress={() => {
-                            navigation.push("Cellular")
-                    }}>
-                        Dalej
+                            icon={"check-bold"} onPress={handleSubmit}>
+                        Gotowe
                     </Button>
             }
         </KeyboardAwareScrollView>
@@ -105,29 +150,7 @@ const General = ({navigation}) => {
 
 }
 
-// file download example
-/*
-<Button
-                title={"Download"}
-                onPress={() => {
-                    FileSystem.downloadAsync(
-                        "https://figlus.pl/storage/videos/batman.mp4",
-                        FileSystem.documentDirectory + "batman.mp4"
-                    ).then(({uri}) => {
-                        console.log('Finished downloading to ', uri);
-                    })
-                        .catch(error => {
-                            console.error(error);
-                        });
-                }}
 
-                buttonStyle={{
-                    width: "100%",
-                    marginTop: 50,
-                    backgroundColor: COLORS.danger
-                }}
-            />
- */
 
 export default General
 

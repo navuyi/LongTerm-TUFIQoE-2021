@@ -4,7 +4,7 @@ import {COLORS} from "./config";
 
 
 
-export const styles = {
+const styles = StyleSheet.create({
     container: {
         display: "flex",
         flexDirection: "column",
@@ -31,4 +31,5 @@ export const styles = {
     buttonBox: {
 
     }
-}
+})
+export default styles
