@@ -1,11 +1,12 @@
 import React, {useState} from "react"
-import {Button} from "react-native-paper";
-import {COLORS} from "../styles/config";
 import {TextInput} from "react-native-paper";
+import {useDispatch, useSelector} from "react-redux";
+import {setNotificationsConfig} from "../redux/actions";
+import userReducer from "../redux/reducers";
 
 const NotificationHourInput = (props) => {
-    const [input, setInput] = useState("")
-
+    const {notifications_config} = useSelector(state => state.userReducer)
+    const dispatch = useDispatch()
 
     const handleChange = (text) =>{
         // Check for number
@@ -16,14 +17,13 @@ const NotificationHourInput = (props) => {
         if(parseInt(text) > 24 || parseInt(text) < 1){
             return
         }
-        const arr = props.schedule.hours
+        const arr = notifications_config.hours
         arr[props.index] = text
         const update = {
-            ...props.schedule,
+            ...notifications_config,
             hours: arr
         }
-        setInput(text)
-        props.setSchedule(update)
+        dispatch(setNotificationsConfig(update))
     }
     return(
         <TextInput
@@ -34,7 +34,7 @@ const NotificationHourInput = (props) => {
                 width: 50,
                 textAlign: "center"
             }}
-            value={props.schedule.hours[props.index].toString()}
+            value={notifications_config.hours[props.index].toString()}
             onChangeText={handleChange}
         />
     )

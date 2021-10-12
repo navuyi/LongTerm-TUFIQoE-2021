@@ -47,8 +47,9 @@ function App() {
                 await SplashScreen.preventAutoHideAsync(); // <-- remain splash screen visible
 
                 // // //Place for fetching data and async operations, before starting the app // // //
-
-                AsyncStorage.clear()
+                //await AsyncStorage.clear()
+                const notifications_config = await AsyncStorage.getItem("notifications_config")
+                console.log(notifications_config)
 
                 const network = await Network.getNetworkStateAsync()
                 if(network.isConnected === true && network.isInternetReachable === true){
@@ -60,7 +61,7 @@ function App() {
                         }
                         else{
                             setInitialView("Landing")
-                            setInitialView("NotificationsInitial")
+                            //setInitialView("NotificationsInitial")
                         }
                     }
                     catch (err){

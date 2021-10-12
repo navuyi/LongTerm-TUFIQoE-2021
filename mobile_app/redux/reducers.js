@@ -1,11 +1,15 @@
 import {SET_USER_SEX, SET_USER_AGE, SET_PHONE_NUMBER, SET_USER_NAME} from "./actions";
+import {SET_NOTIFICATIONS_CONFIG} from "./actions";
 
 const initialState = {
     sex: "female",
     age: "",
-    phone_number: ""
+    phone_number: "",
+    notifications_config: {
+        notificationsPerDay: 1,
+        hours: [12]
+    }
 }
-
 
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -17,6 +21,8 @@ const userReducer = (state = initialState, action) => {
             return {...state, sex: action.payload}
         case SET_USER_NAME:
             return {...state, user_name: action.payload}
+        case SET_NOTIFICATIONS_CONFIG:
+            return {...state, notifications_config: action.payload}
         default:
             return state
     }

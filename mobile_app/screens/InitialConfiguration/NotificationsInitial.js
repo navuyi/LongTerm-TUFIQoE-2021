@@ -1,6 +1,5 @@
 import {Text, View} from "react-native"
-import React, {useEffect, useRef, useState} from "react"
-
+import React, {useEffect, useState} from "react"
 import NotificationNumberButton from "../../components/NotificationNumberButton";
 import NotificationHourInput from "../../components/NotificationHourInput";
 import styles from "../../styles/NotificationInitialStyle"
@@ -10,42 +9,47 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {isBlankString} from "../../utils/string_utils";
 import {Button} from "react-native-paper";
 import {COLORS} from "../../styles/config";
+import {useDispatch, useSelector} from "react-redux";
+import {setNotificationsConfig} from "../../redux/actions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const NotificationsInitial = () => {
-    const [activeNumber, setActiveNumber] = useState(1)
+const NotificationsInitial = ({navigation}) => {
+    const dispatch = useDispatch()
+    //const [activeNumber, setActiveNumber] = useState()
     const [proceed, setProceed] = useState(false)
-    const [schedule, setSchedule] = useState({
-        notificationsPerDay: 0,
-        hours: []
-    })
+    const {notifications_config} = useSelector(state => state.userReducer)
+
 
     useEffect(() => {
         // Fill array with initial hours
-        let initial = 12
-        const arr = new Array(activeNumber).fill(0)
+        let initial = 10
+        const arr = new Array(parseInt(notifications_config.notificationsPerDay)).fill(0)
         for (let i = 0; i < arr.length; i++) {
             arr[i] = initial
-            initial += 2
+            initial += 4
         }
         const update = {
-            ...schedule,
+            ...notifications_config,
             hours: arr
         }
-
-        setSchedule(update)
-    }, [activeNumber])
+        dispatch(setNotificationsConfig(update))
+    }, [notifications_config.notificationsPerDay])
 
     useEffect(() => {
-        console.log(schedule)
         // Check if all hours are filled and correct
-        const proceed = schedule.hours.every(hour => isBlankString(hour) === false)
-        setProceed(proceed)
+        const result = notifications_config.hours.every(hour => isBlankString(hour) === false)
+        setProceed(result)
+        console.log(notifications_config)
+        console.log(result)
 
-    }, [schedule])
+    }, [notifications_config])
 
-    useEffect(() => {
-        console.log(proceed)
-    }, [proceed])
+    const handleSubmit = async () => {
+        // Save configured hours to AsyncStorage
+        const value = JSON.stringify(notifications_config) //IMPORTANT object has to be JSON serialized in order to save it in Storage
+        await AsyncStorage.setItem("notifications_config", value)
+        await navigation.push("Home")   //TODO Before navigating further - method scheduling notifications should be invoked
+    }
 
     return (
         <KeyboardAwareScrollView contentContainerStyle={styles.container}>
@@ -57,29 +61,29 @@ const NotificationsInitial = () => {
                 justifyContent: "space-around",
                 paddingTop: 40
             }}>
-                <NotificationNumberButton number={1} setActiveNumber={setActiveNumber} activeNumber={activeNumber}/>
-                <NotificationNumberButton number={2} setActiveNumber={setActiveNumber} activeNumber={activeNumber}/>
-                <NotificationNumberButton number={3} setActiveNumber={setActiveNumber} activeNumber={activeNumber}/>
-                <NotificationNumberButton number={4} setActiveNumber={setActiveNumber} activeNumber={activeNumber}/>
+                <NotificationNumberButton number={1} />
+                <NotificationNumberButton number={2} />
+                <NotificationNumberButton number={3} />
+                <NotificationNumberButton number={4} />
             </View>
             <View style={styles.hourSelectContainer}>
                 <Text style={styles.header}> Wybierz godziny powiadomień: </Text>
                 {
-                    schedule.hours.map((num, index) => {
+                    notifications_config.hours.map((num, index) => {
                         return (
                             <View key={index} style={styles.hourSelectRow}>
                                 {/*  <Text style={styles.index}>{index + 1}</Text> */}
-                                <NotificationHourInput index={index} schedule={schedule} setSchedule={setSchedule}/>
+                                <NotificationHourInput index={index} />
                             </View>
                         )
                     })
                 }
             </View>
             {
-                proceed ? <Button style={{
-                    width: "50%",
-                    marginTop: 50
-                }} mode={"contained"} color={COLORS.info}> Dalej </Button> : null
+                proceed ? <Button style={{marginTop: 50}} uppercase={true} mode={"contained"} color={COLORS.info}
+                                  icon={"check-bold"} onPress={handleSubmit}>
+                    Gotowe
+                </Button> : null
             }
         </KeyboardAwareScrollView>
     )
