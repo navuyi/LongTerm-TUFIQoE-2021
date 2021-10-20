@@ -18,7 +18,6 @@ const Landing = ({navigation}) => {
                 <Text style={styles.info}> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. </Text>
             </View>
-
             <View style={{width: "100%", display: "flex", flexDirection: "column", alignItems: "center"}}>
                 <Text style={styles.info_2}>
                     Kliknij “Rozpocznij” aby przejść do konfiguracji początkowej.

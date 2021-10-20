@@ -6,12 +6,13 @@ import styles from "../../styles/NotificationInitialStyle"
 import {Picker} from "@react-native-picker/picker";
 import {ScrollView} from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {isBlankString} from "../../utils/string_utils";
+import {isBlankString} from "../../utils/stringUtils";
 import {Button} from "react-native-paper";
 import {COLORS} from "../../styles/config";
 import {useDispatch, useSelector} from "react-redux";
 import {setNotificationsConfig} from "../../redux/actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {scheduleNotificationsForTheDay} from "../../utils/notifications";
 
 const NotificationsInitial = ({navigation}) => {
     const dispatch = useDispatch()
@@ -48,7 +49,12 @@ const NotificationsInitial = ({navigation}) => {
         // Save configured hours to AsyncStorage
         const value = JSON.stringify(notifications_config) //IMPORTANT object has to be JSON serialized in order to save it in Storage
         await AsyncStorage.setItem("notifications_config", value)
-        await navigation.push("Home")   //TODO Before navigating further - method scheduling notifications should be invoked
+        await scheduleNotificationsForTheDay()
+        //await navigation.push("Home")
+        await navigation.reset({
+            index: 0,
+            routes: [{name: "Home"}]
+        })
     }
 
     return (

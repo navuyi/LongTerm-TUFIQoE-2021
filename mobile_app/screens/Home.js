@@ -3,6 +3,7 @@ import React from "react"
 
 import Settings from "./Settings";
 import MainMenu from "./MainMenu";
+import * as config from "../styles/config"
 
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -19,7 +20,7 @@ const Home = () => {
         <Tab.Navigator screenOptions={{
             headerTitleAlign: "center",
             headerStyle: {
-                backgroundColor: "#222222",
+                backgroundColor: config.HEADER_BG_COLOR,
             },
             headerTintColor: "#ffffff",
         }} >

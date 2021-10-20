@@ -1,8 +1,11 @@
 import * as Notifications from "expo-notifications"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const scheduleForTheDay = async () => {
-
+export const test = async () => {
+    const config = await AsyncStorage.getItem("notifications_config")
 }
+
+
 
 
 /*

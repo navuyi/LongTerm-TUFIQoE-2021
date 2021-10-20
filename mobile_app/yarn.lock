@@ -1680,6 +1680,18 @@
   resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-1.2.0.tgz#e0069fd2d34f53a39594833d1bf249e71988c60d"
   integrity sha512-0eraS7Gj39CD26aAyUyZdyoCe1XBEa9CbHoFHCv3N5/+FSfX+HYdPzkOi3KPT3nEdNx7GD4rTWN2y0qZ7yUiaA==
 
+"@react-navigation/elements@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-1.2.1.tgz#86f19781c6f34a5c9dd25dca99915e0306f477d1"
+  integrity sha512-EnmAbKMsptrliRKf95rdgS6BhMjML+mIns06+G1Vdih6BrEo7/0iytThUv3WBf99AI76dyEq/cqLUwHPiFzXWg==
+
+"@react-navigation/material-bottom-tabs@^6.0.8":
+  version "6.0.9"
+  resolved "https://registry.yarnpkg.com/@react-navigation/material-bottom-tabs/-/material-bottom-tabs-6.0.9.tgz#e809b18e6d1ffecd05f85e575224d65b769900b2"
+  integrity sha512-ZNcSS58I+M4iG5k7xBEEj1s1uDxyLJNTMmIhdMBuj6/Wz4O1bqtJEJ4MEQjjOxXbfD70Io2L0f4TL3MCXY3DCw==
+  dependencies:
+    "@react-navigation/elements" "^1.2.1"
+
 "@react-navigation/native-stack@^6.1.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@react-navigation/native-stack/-/native-stack-6.1.0.tgz#32e50d07bc8d9669d65f72dc4ffec2a6cc9ef379"
@@ -3038,6 +3050,13 @@ expo-crypto@~9.2.0:
   resolved "https://registry.yarnpkg.com/expo-crypto/-/expo-crypto-9.2.0.tgz#5d124539836767c019297816f050b8bb73056297"
   integrity sha512-jc9E7jHlOT8fYs64DIsSOdnLtxtIK1pV78O/nBamPwKdGrvFSNqMSFndxyVSuEimBNoPPNRwN+4Pb4W1RRltJA==
 
+expo-device@~3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/expo-device/-/expo-device-3.3.0.tgz#81d14d2b243a7582a279d3c95ea436642892173b"
+  integrity sha512-kZ6HZpxGp3T3GrgbpW4VSFvH6SQZVD/dwPN+I3tlRPezaZ3LUj64kSZDKLgOi1H/9VCuUQdxjItoVZZuIWTX1A==
+  dependencies:
+    ua-parser-js "^0.7.19"
+
 expo-error-recovery@~2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/expo-error-recovery/-/expo-error-recovery-2.2.0.tgz#89e5494d97347530dd53cd817d7ac63f07bf8de0"
@@ -3107,6 +3126,15 @@ expo-notifications@~0.12.3:
     expo-modules-core "~0.2.0"
     fs-extra "^9.0.1"
     uuid "^3.4.0"
+
+expo-sensors@~10.2.2:
+  version "10.2.2"
+  resolved "https://registry.yarnpkg.com/expo-sensors/-/expo-sensors-10.2.2.tgz#882e25b3135995e383d88b21b17e5f1b1155d4e0"
+  integrity sha512-kZZobyfQQPA7PwuTQ2+HwunZ1o2emWLKqWP9jYOBPI4toQAproSLzhlhKmpm2vRDOL1ctC12Fb0g9elv7r9Omg==
+  dependencies:
+    "@expo/config-plugins" "^3.0.0"
+    expo-modules-core "~0.2.0"
+    invariant "^2.2.4"
 
 expo-splash-screen@^0.11.2:
   version "0.11.2"
@@ -6320,7 +6348,7 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-ua-parser-js@^0.7.18:
+ua-parser-js@^0.7.18, ua-parser-js@^0.7.19:
   version "0.7.28"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.28.tgz#8ba04e653f35ce210239c64661685bf9121dec31"
   integrity sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g==

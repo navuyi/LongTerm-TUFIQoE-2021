@@ -13,7 +13,7 @@ import * as Notifications from "expo-notifications"
 import * as TaskManager from "expo-task-manager"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from "moment";
-
+import * as config from "./styles/config";
 
 import General from "./screens/InitialConfiguration/General";
 import Cellular from "./screens/InitialConfiguration/Cellular";
@@ -24,7 +24,11 @@ import Home from './screens/Home'
 import Landing from "./screens/Landing";
 import NoConnection from "./screens/NoConnection";
 
-
+import {clearNotifications} from "./utils/notifications";
+import {scheduleNotificationsForTheDay} from "./utils/notifications";
+import {getDeviceInformation} from "./utils/deviceInfo";
+import {getDeviceMemory} from "./utils/deviceInfo";
+import {listenToDeviceMotion} from "./utils/deviceMotion";
 // Test views
 import FileSystemTest from "./screens/TestViews/FileSystemTest";
 import AVTest from "./screens/TestViews/AVTest";
@@ -36,9 +40,14 @@ function App() {
     const colorScheme = useColorScheme()
     const [initialView, setInitialView] = useState("")
 
-    useEffect(() => {
-        console.log("Color scheme changed " + colorScheme)
-    }, [colorScheme])
+
+    Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+            shouldShowAlert: true,
+            shouldPlaySound: false,
+            shouldSetBadge: false,
+        }),
+    });
 
     // This is code responsible for displaying splash screen as long as app is loading/fetching external data
     useEffect(() => {
@@ -47,10 +56,7 @@ function App() {
                 await SplashScreen.preventAutoHideAsync(); // <-- remain splash screen visible
 
                 // // //Place for fetching data and async operations, before starting the app // // //
-                //await AsyncStorage.clear()
-                const notifications_config = await AsyncStorage.getItem("notifications_config")
-                console.log(notifications_config)
-
+                await AsyncStorage.clear()
                 const network = await Network.getNetworkStateAsync()
                 if(network.isConnected === true && network.isInternetReachable === true){
                     try{
@@ -58,6 +64,15 @@ function App() {
                         console.log(access_token)
                         if(access_token){
                             setInitialView("Home")
+
+                            //await AsyncStorage.clear()
+                            // Handle notification rescheduling
+
+                            await clearNotifications()
+                            await scheduleNotificationsForTheDay()
+                            //await getDeviceInformation()           // <-- to be moved
+                            //await getDeviceMemory()                // <-- to be moved
+                            //await listenToDeviceMotion()          // <-- to be moved
                         }
                         else{
                             setInitialView("Landing")
@@ -72,8 +87,11 @@ function App() {
                     console.log("No Internet Connection")
                     setInitialView("NoConnection")
                 }
-                // Check system color scheme (if dark mode is enabled)
-                console.log(Appearance.getColorScheme()) // <-- This is always returning "light"
+
+
+
+
+
             } catch (e) {
                 console.warn(e);
             } finally {
@@ -104,8 +122,9 @@ function App() {
             <NavigationContainer>
                 <Stack.Navigator initialRouteName={initialView} screenOptions={{
                     headerStyle: {
-                        backgroundColor: colorScheme === "dark" ? "#222222" : colorScheme === "light" ? "#222222" : "00ff00"
+                        backgroundColor: config.HEADER_BG_COLOR
                     },
+                    headerShown: true,
                     headerTintColor: "#ffffff",
                     headerTitleStyle: {
                         fontWeight: "bold"
@@ -139,7 +158,8 @@ function App() {
                         name="Landing"
                         component={Landing}
                         options={{
-                            title: ""
+                            title: "",
+                            headerShown: false
                         }}
                     />
                     <Stack.Screen

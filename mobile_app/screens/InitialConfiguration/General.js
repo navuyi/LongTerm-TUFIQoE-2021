@@ -7,8 +7,8 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {Button, TextInput} from "react-native-paper";
 import {setAge, setPhoneNumber, setSex, setUserName} from "../../redux/actions";
 import {COLORS} from "../../styles/config";
-import {removeWhitespaces} from "../../utils/string_utils";
-import {isBlankString} from "../../utils/string_utils";
+import {removeWhitespaces} from "../../utils/stringUtils";
+import {isBlankString} from "../../utils/stringUtils";
 import * as Crypto from "expo-crypto"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -126,8 +126,10 @@ const General = ({navigation}) => {
                         prompt={"Płeć"}
                         style={{
                             width: "100%",
-                            height: 100
+                            height: 100,
+                            color: "whitesmoke",
                         }}
+
                         itemStyle={{
                             height: 130
                         }}

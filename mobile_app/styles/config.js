@@ -8,3 +8,6 @@ export const COLORS = {
     light: "#f8f9fa",
     dark: "#343a40"
 }
+
+
+export const HEADER_BG_COLOR = "#1f7a8c"
