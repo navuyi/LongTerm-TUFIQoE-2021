@@ -1,7 +1,7 @@
 import {Text, View} from "react-native"
 import React from "react"
 
-const MainMenu = () => {
+const Trailers = () => {
     const style = {
         flex: 1,
         alignItems: "center",
@@ -9,11 +9,11 @@ const MainMenu = () => {
     }
     return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-
+            <Text> Trailers </Text>
         </View>
     )
 
 }
 
 
-export default MainMenu
+export default Trailers

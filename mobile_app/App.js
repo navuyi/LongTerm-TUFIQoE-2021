@@ -19,12 +19,12 @@ import General from "./screens/InitialConfiguration/General";
 import Cellular from "./screens/InitialConfiguration/Cellular";
 import NotificationsInitial from "./screens/InitialConfiguration/NotificationsInitial"
 
-import Settings from "./screens/Settings";
+import Settings from "./screens/Settings/Settings";
 import Home from './screens/Home'
 import Landing from "./screens/Landing";
 import NoConnection from "./screens/NoConnection";
 
-import {clearNotifications} from "./utils/notifications";
+import {clearNotifications, scheduleNotificationsForUpcomingDays} from "./utils/notifications";
 import {scheduleNotificationsForTheDay} from "./utils/notifications";
 import {getDeviceInformation} from "./utils/deviceInfo";
 import {getDeviceMemory} from "./utils/deviceInfo";
@@ -54,9 +54,8 @@ function App() {
         async function prepare() {
             try {
                 await SplashScreen.preventAutoHideAsync(); // <-- remain splash screen visible
-
                 // // //Place for fetching data and async operations, before starting the app // // //
-                await AsyncStorage.clear()
+                //await AsyncStorage.clear()
                 const network = await Network.getNetworkStateAsync()
                 if(network.isConnected === true && network.isInternetReachable === true){
                     try{
@@ -70,6 +69,9 @@ function App() {
 
                             await clearNotifications()
                             await scheduleNotificationsForTheDay()
+                            //await scheduleNotificationsForUpcomingDays()
+                            const schedule = await Notifications.getAllScheduledNotificationsAsync()
+                            console.log(schedule)
                             //await getDeviceInformation()           // <-- to be moved
                             //await getDeviceMemory()                // <-- to be moved
                             //await listenToDeviceMotion()          // <-- to be moved

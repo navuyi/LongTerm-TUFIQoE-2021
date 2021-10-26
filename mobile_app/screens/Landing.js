@@ -5,12 +5,6 @@ import styles from "../styles/LandingStyle"
 import {LinearGradient} from "expo-linear-gradient";
 
 const Landing = ({navigation}) => {
-    const style = {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
-    }
-
     return (
         <View style={styles.container}>
             <View>

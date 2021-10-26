@@ -44,12 +44,20 @@ export const scheduleNotificationsForTheDay = async () => {
 }
 
 export const scheduleNotificationsForUpcomingDays = async () =>{
-    //TODO After watching daily video
-
     // First clear all notifications
     clearNotifications()
-    //TODO - set date of new daily vide available in AsyncStorage (not here - in place than invokes this method)
-    //TODO - schedule notifications for upcoming days (3-5 days)
+
+    const day_01 = new Date()
+    //day_01.setDate(parseInt(day_01.getDate)+1)
+    day_01.setHours(13)
+    day_01.setMinutes(26)
+    await Notifications.scheduleNotificationAsync({
+        content: {
+            title: "Zwiastun filmowy gotowy do obejrzenia!",
+            body: "Wejdź i zobacz."
+        },
+        trigger: day_01
+    });
 }
 
 

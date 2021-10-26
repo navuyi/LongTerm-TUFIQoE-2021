@@ -8,7 +8,7 @@ export const listenToDeviceMotion = async () => {
         return null
     }
     else{
-        await DeviceMotion.setUpdateInterval(500)
+        await DeviceMotion.setUpdateInterval(5000)
         const sub = await DeviceMotion.addListener((data) => {
             //DeviceMotion.setUpdateInterval(5000) //IMPORTANT After going bacground and then foreground interval was reseted to initial (very short)
             console.log(data)

@@ -3,8 +3,6 @@ import React, {useEffect, useState} from "react"
 import NotificationNumberButton from "../../components/NotificationNumberButton";
 import NotificationHourInput from "../../components/NotificationHourInput";
 import styles from "../../styles/NotificationInitialStyle"
-import {Picker} from "@react-native-picker/picker";
-import {ScrollView} from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {isBlankString} from "../../utils/stringUtils";
 import {Button} from "react-native-paper";
@@ -67,10 +65,10 @@ const NotificationsInitial = ({navigation}) => {
                 justifyContent: "space-around",
                 paddingTop: 40
             }}>
-                <NotificationNumberButton number={1} />
-                <NotificationNumberButton number={2} />
-                <NotificationNumberButton number={3} />
-                <NotificationNumberButton number={4} />
+                <NotificationNumberButton number={1}/>
+                <NotificationNumberButton number={2}/>
+                <NotificationNumberButton number={3}/>
+                <NotificationNumberButton number={4}/>
             </View>
             <View style={styles.hourSelectContainer}>
                 <Text style={styles.header}> Wybierz godziny powiadomień: </Text>
@@ -79,7 +77,7 @@ const NotificationsInitial = ({navigation}) => {
                         return (
                             <View key={index} style={styles.hourSelectRow}>
                                 {/*  <Text style={styles.index}>{index + 1}</Text> */}
-                                <NotificationHourInput index={index} />
+                                <NotificationHourInput index={index}/>
                             </View>
                         )
                     })
