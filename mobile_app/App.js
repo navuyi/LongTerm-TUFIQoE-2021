@@ -6,15 +6,15 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import axios from "axios";
 import {Provider} from "react-redux"
 import {Store} from "./redux/store";
-import {Appearance, Button} from "react-native";
-import {useColorScheme} from "react-native";
-import * as FileSystem from "expo-file-system"
-import * as Notifications from "expo-notifications"
-import * as TaskManager from "expo-task-manager"
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import moment from "moment";
-import * as config from "./styles/config";
 
+import {useColorScheme} from "react-native";
+
+import * as Notifications from "expo-notifications"
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import './IMLocalize'
+import * as config from "./styles/config";
+import Language from "./screens/InitialConfiguration/Language";
 import General from "./screens/InitialConfiguration/General";
 import Cellular from "./screens/InitialConfiguration/Cellular";
 import NotificationsInitial from "./screens/InitialConfiguration/NotificationsInitial"
@@ -64,8 +64,9 @@ function App() {
                         if(access_token){
                             setInitialView("Home")
 
-                            //await AsyncStorage.clear()
+                            await AsyncStorage.clear()  //IMPORTANT <-- CLEARING ALL ASYNC STORAGE CONFIG
                             // Handle notification rescheduling
+
 
                             await clearNotifications()
                             await scheduleNotificationsForTheDay()
@@ -155,6 +156,14 @@ function App() {
                         />
                     </Stack.Group>
 
+                    <Stack.Screen
+                        name={"Language"}
+                        component={Language}
+                        options={{
+                            title: "",
+                            headerShown: false
+                        }}
+                    />
 
                     <Stack.Screen
                         name="Landing"

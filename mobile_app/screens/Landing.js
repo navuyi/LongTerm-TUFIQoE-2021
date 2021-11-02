@@ -26,7 +26,7 @@ const Landing = ({navigation}) => {
                         onPress={() => {
                         navigation.reset({
                             index: 0,
-                            routes: [{name: "General"}]
+                            routes: [{name: "Language"}]
                         })
                     }}> Rozpocznij </Text>
                 </LinearGradient>
