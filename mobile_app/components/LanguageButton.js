@@ -5,15 +5,8 @@ import {useTranslation} from "react-i18next";
 
 
 const LanguageButton = (props) => {
-
-    const LANGUAGES = [
-        { code: 'eng', label: 'English' },
-        { code: 'pol', label: 'Polski' },
-        { code: 'swe', label: 'Svenska' }
-    ]
     const {i18n} = useTranslation()
     const selectedLanguage = i18n.language
-
 
     const setLanguage = code => {
         return i18n.changeLanguage(code)

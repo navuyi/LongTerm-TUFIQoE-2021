@@ -64,7 +64,7 @@ function App() {
                         if(access_token){
                             setInitialView("Home")
 
-                            await AsyncStorage.clear()  //IMPORTANT <-- CLEARING ALL ASYNC STORAGE CONFIG
+                            //await AsyncStorage.clear()  //IMPORTANT <-- CLEARING ALL ASYNC STORAGE CONFIG
                             // Handle notification rescheduling
 
 
