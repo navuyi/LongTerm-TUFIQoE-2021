@@ -5,11 +5,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import NotificationSettings from "./NotificationSettings";
+import LanguageSettings from "./LanguageSettings";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
-
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 const Tab = createBottomTabNavigator();
-
+import {COLORS} from "../../styles/config";
 
 
 const Settings = () => {
@@ -19,19 +20,16 @@ const Settings = () => {
             headerTitleAlign: "center",
             headerShown: false
         }}>
-            <Tab.Screen name="Ustawienia powiadomień" component={NotificationSettings} options={{
-                tabBarIcon: ({color}) => {
-                    return <MaterialCommunityIcons name={"bell"} color={color} size={26}/>
-                }
-            }}/>
-            <Tab.Screen name="Dane" component={NotificationSettings} options={{
-                tabBarIcon: ({color}) => {
-                    return <MaterialCommunityIcons name={"account"} color={color} size={35}/>
-                }
-            }}/>
-            <Tab.Screen name="Spare" component={NotificationSettings} options={{
+            <Tab.Screen name="NotificationSettings" component={NotificationSettings} options={{
+                title: "Ustawienia powiadomień",
                 tabBarIcon: ({color, focused}) => {
-                    return <MaterialCommunityIcons name={"book"} color={focused ? "#1F7A8C" : color} size={35}/>
+                    return <MaterialIcons name={"notifications"} color={focused ? COLORS.info : COLORS.dark} size={26}/>
+                }
+            }}/>
+            <Tab.Screen name="LanguageSettings" component={LanguageSettings} options={{
+                title: "Język",
+                tabBarIcon: ({color, focused}) => {
+                    return <MaterialIcons name={"language"} color={focused ? COLORS.info : COLORS.dark} size={26}/>
                 }
             }}/>
         </Tab.Navigator>

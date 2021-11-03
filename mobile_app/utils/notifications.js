@@ -6,7 +6,7 @@ export const scheduleNotificationsForTheDay = async () => {
     // This method shall be invoked on every application enter - on loading
     const config_json = await AsyncStorage.getItem("notifications_config") // <-- This is stored as JSON string
     if(!config_json){
-        notificationsConfigReminder()
+        await notificationsConfigReminder()
         return
     }
     const config = JSON.parse(config_json)

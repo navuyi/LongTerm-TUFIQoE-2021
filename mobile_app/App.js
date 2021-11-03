@@ -16,19 +16,14 @@ import './IMLocalize'
 import * as config from "./styles/config";
 import Language from "./screens/InitialConfiguration/Language";
 import General from "./screens/InitialConfiguration/General";
-import Cellular from "./screens/InitialConfiguration/Cellular";
 import NotificationsInitial from "./screens/InitialConfiguration/NotificationsInitial"
-
-import Settings from "./screens/Settings/Settings";
 import Home from './screens/Home'
 import Landing from "./screens/Landing";
 import NoConnection from "./screens/NoConnection";
-
-import {clearNotifications, scheduleNotificationsForUpcomingDays} from "./utils/notifications";
+import GeneralEnhanced from "./screens/InitialConfiguration/GeneralEnhanced";
+import {clearNotifications} from "./utils/notifications";
 import {scheduleNotificationsForTheDay} from "./utils/notifications";
-import {getDeviceInformation} from "./utils/deviceInfo";
-import {getDeviceMemory} from "./utils/deviceInfo";
-import {listenToDeviceMotion} from "./utils/deviceMotion";
+
 // Test views
 import FileSystemTest from "./screens/TestViews/FileSystemTest";
 import AVTest from "./screens/TestViews/AVTest";
@@ -55,7 +50,7 @@ function App() {
             try {
                 await SplashScreen.preventAutoHideAsync(); // <-- remain splash screen visible
                 // // //Place for fetching data and async operations, before starting the app // // //
-                //await AsyncStorage.clear()
+
                 const network = await Network.getNetworkStateAsync()
                 if(network.isConnected === true && network.isInternetReachable === true){
                     try{
@@ -146,6 +141,10 @@ function App() {
                     <Stack.Group screenOptions={{
                         title: "Konfiguracja"
                     }}>
+                        <Stack.Screen
+                            name={"GeneralEnhanced"}
+                            component={GeneralEnhanced}
+                        />
                         <Stack.Screen
                             name={"General"}
                             component={General}

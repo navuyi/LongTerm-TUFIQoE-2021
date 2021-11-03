@@ -34,6 +34,7 @@ const NotificationHourInput = (props) => {
                 width: 50,
                 textAlign: "center"
             }}
+            keyboardType={"numeric"}
             value={notifications_config.hours[props.index].toString()}
             onChangeText={handleChange}
         />

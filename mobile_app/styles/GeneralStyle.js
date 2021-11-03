@@ -13,16 +13,30 @@ const style = StyleSheet.create({
     },
     box: {
         width: "100%",
-        marginTop: "10%",
+        marginTop: 20,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center"
     },
+    box_sex:{
+        width: "100%",
+        marginTop: 10,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+    },
     label: {
-        textAlign: "center",
+        width: "100%",
+        textAlign: "left",
         fontSize: 18,
-        fontWeight: "bold"
+        fontWeight: "normal"
+    },
+    input: {
+        width: "100%",
+        height: 35,
+        textAlign: "center"
     }
 })
 

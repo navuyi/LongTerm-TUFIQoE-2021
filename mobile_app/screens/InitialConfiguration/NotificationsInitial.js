@@ -11,6 +11,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {setNotificationsConfig} from "../../redux/actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {scheduleNotificationsForTheDay} from "../../utils/notifications";
+import {Picker} from "@react-native-picker/picker";
+import axios from "axios";
 
 const NotificationsInitial = ({navigation}) => {
     const dispatch = useDispatch()
@@ -47,8 +49,27 @@ const NotificationsInitial = ({navigation}) => {
         // Save configured hours to AsyncStorage
         const value = JSON.stringify(notifications_config) //IMPORTANT object has to be JSON serialized in order to save it in Storage
         await AsyncStorage.setItem("notifications_config", value)
+        // Schedule notifications after saving configuration
         await scheduleNotificationsForTheDay()
-        //await navigation.push("Home")
+
+        // Send request to the server with all gathered data
+        const url = "proper url will be here"
+        const data = {
+            f_name: await AsyncStorage.getItem("user_first_name"),
+            l_name: await AsyncStorage.getItem("user_last_name"),
+            phone_number: await AsyncStorage.getItem("phone_number"),
+            sex: await AsyncStorage.getItem("sex"),
+            age: await AsyncStorage.getItem("age"),
+            language: await AsyncStorage.getItem("language"),
+            notifications_config: JSON.parse(await AsyncStorage.getItem("notifications_config"))
+        }
+        console.log(data)
+        await AsyncStorage.setItem("access_token", "blahblah123dummytoken") //TODO DELETE THIS LATER - LEAVE ONLY FOR DEVELOPMENT STAGE
+        //axios.post(url, data).then() //TODO TO BE CONTINUED
+
+        //TODO SAVE ACCESS TOKEN RECEIVED FROM THE SERVER
+        //TODO IN CASE OF AN ERROR RETURN BACK TO FIRST STAGE OF INITIAL CONFIGURATION
+
         await navigation.reset({
             index: 0,
             routes: [{name: "Home"}]
@@ -58,6 +79,8 @@ const NotificationsInitial = ({navigation}) => {
     return (
         <KeyboardAwareScrollView contentContainerStyle={styles.container}>
             <Text style={styles.header}> Wybierz ilość powiadomień w ciągu dnia: </Text>
+
+
             <View style={{
                 display: "flex",
                 flexDirection: "row",
@@ -65,6 +88,7 @@ const NotificationsInitial = ({navigation}) => {
                 justifyContent: "space-around",
                 paddingTop: 40
             }}>
+
                 <NotificationNumberButton number={1}/>
                 <NotificationNumberButton number={2}/>
                 <NotificationNumberButton number={3}/>
@@ -92,6 +116,27 @@ const NotificationsInitial = ({navigation}) => {
         </KeyboardAwareScrollView>
     )
 }
-
-
 export default NotificationsInitial
+
+
+
+/*
+    // Picker for selecting number of notifications per day - logic needs to be connected to this element
+    <Picker
+        selectedValue={notifications_config.notificationsPerDay.toString()}
+        prompt={"Płeć"}
+        style={{
+            width: "100%",
+            height: 100,
+            color: "whitesmoke",
+        }}
+        itemStyle={{
+            height: 130
+        }}
+    >
+    <Picker.Item label={"1"} value={"1"}/>
+    <Picker.Item label={"2"} value={"2"}/>
+    <Picker.Item label={"3"} value={"3"}/>
+    <Picker.Item label={"4"} value={"4"}/>
+</Picker>
+ */

@@ -11,7 +11,7 @@ import {useTranslation} from "react-i18next";
 
 const Language = ({navigation}) => {
     const {t, i18n} = useTranslation()
-   const [disabled, setDisabled] = useState(true)
+    const [disabled, setDisabled] = useState(true)
 
     useEffect(() => {
         setTimeout(() => {

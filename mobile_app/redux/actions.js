@@ -1,7 +1,9 @@
 export const SET_USER_SEX = 'SET_USER_SEX'
 export const SET_USER_AGE = "SET_USER_AGE"
 export const SET_PHONE_NUMBER = "SET_PHONE_NUMBER"
-export const SET_USER_NAME = "SET_USER_NAME"
+
+export const SET_USER_FIRST_NAME = "SET_USER_FIRST_NAME"
+export const SET_USER_LAST_NAME = "SET_USER_LAST_NAME"
 
 export const SET_NOTIFICATIONS_CONFIG = "SET_NOTIFICATIONS_CONFIG"
 
@@ -24,10 +26,16 @@ export const setPhoneNumber = (phone_number) => dispatch => {
     })
 }
 
-export const setUserName = (user_name) => dispatch => {
+export const setUserFirstName = (user_first_name) => dispatch => {
     dispatch({
-        type: SET_USER_NAME,
-        payload: user_name
+        type: SET_USER_FIRST_NAME,
+        payload: user_first_name
+    })
+}
+export const setUserLastName = (user_last_name) => dispatch => {
+    dispatch({
+        type: SET_USER_LAST_NAME,
+        payload: user_last_name
     })
 }
 
