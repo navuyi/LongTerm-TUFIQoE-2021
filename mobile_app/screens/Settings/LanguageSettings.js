@@ -4,11 +4,18 @@ import {Text} from "react-native";
 import {useTranslation} from "react-i18next";
 import styles from "../../styles/LanguageStyle";
 import LanguageButton from "../../components/LanguageButton";
+import {COLORS} from "../../styles/config";
 
 
 const LanguageSettings = (props) => {
     const {t, i18n} = useTranslation()
     const [disabled, setDisabled] = useState(true)
+
+    const style = {
+        backgroundColor: COLORS.info,
+        width: "50%",
+        marginTop: 40
+    }
 
     return(
         <SafeAreaView>
@@ -18,9 +25,9 @@ const LanguageSettings = (props) => {
                     fontSize: 20,
                     marginBottom: 50
                 }}>{t('initialConfiguration:chooseLang')}</Text>
-                <LanguageButton mode={"contained"} style={styles.lang_btn} code={"eng"}> {t('initialConfiguration:eng')} </LanguageButton>
-                <LanguageButton mode={"contained"} style={styles.lang_btn} code={"pol"}> {t('initialConfiguration:pol')} </LanguageButton>
-                <LanguageButton mode={"contained"} style={styles.lang_btn} code={"swe"}> {t('initialConfiguration:swe')} </LanguageButton>
+                <LanguageButton mode={"contained"} style={style} code={"eng"}> {t('initialConfiguration:eng')} </LanguageButton>
+                <LanguageButton mode={"contained"} style={style} code={"pol"}> {t('initialConfiguration:pol')} </LanguageButton>
+                <LanguageButton mode={"contained"} style={style} code={"swe"}> {t('initialConfiguration:swe')} </LanguageButton>
             </View>
         </SafeAreaView>
     )

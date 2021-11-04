@@ -18,9 +18,14 @@ const Settings = () => {
     return (
         <Tab.Navigator screenOptions={{
             headerTitleAlign: "center",
-            headerShown: false
+            headerShown: false,
+            tabBarLabelStyle: {
+                fontSize: 14,
+                color: "black",
+                fontWeight: "normal"
+            }
         }}>
-            <Tab.Screen name="NotificationSettings" component={NotificationSettings} options={{
+            <Tab.Screen name="NotificationSettings" component={NotificationSettings}  options={{
                 title: "Ustawienia powiadomień",
                 tabBarIcon: ({color, focused}) => {
                     return <MaterialIcons name={"notifications"} color={focused ? COLORS.info : COLORS.dark} size={26}/>
